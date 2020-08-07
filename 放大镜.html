@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overflow: hidden;
+      }
+      .left {
+        float: left;
+        width: 450px;
+        height: 450px;
+        background: url(img/back.jpg) no-repeat;
+        position: relative;
+        background-size: 100%;
+        border: 1px solid green;
+      }
+      .mask {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        background: yellow;
+        opacity: 0.5;
+        display: none;
+      }
+      .right {
+          position: absolute;
+          left: 452px;
+        float: left;
+        width: 500px;
+        height: 500px;
+        border: 1px solid #111;
+        background: url(img/back.jpg) no-repeat;
+        background-size: 1000px 1000px;
+        display: none;
+        /* background-position: ; */
+      }
+      .con{
+          overflow: hidden;
+      }
+      .l-de,.r-de{
+          float: left;
+          width: 30px;
+          height: 70px;
+          color: #666;
+          font-weight: bold;
+          font-family: '宋体';
+          font-size: 30px;
+          cursor: pointer;
+          line-height: 80px;
+          text-align: center;
+      }
+      .tab {
+        width: 392px;
+        height: 70px;
+        /* background-color: #ccc; */
+        overflow: hidden;
+        float: left;
+      }
+      .tab img{
+          width: 52px;
+          margin-left: 15px;
+          height: 66px;
+          border: 2px solid #fff;
+      }
+      .bottom{
+          margin-top: 20px;
+          overflow: hidden;
+      }
+      .tab-con{
+          width: 784px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="con">
+      <div class="left">
+        <div class="mask"></div>
+      </div>
+      <div class="right"></div>
+    </div>
+    <div class="bottom">
+        <p class="l-de">&lt;</p>
+    <div class="tab">
+        <div class="tab-con"> 
+            <img src="img/back.jpg" alt="" />
+      <img src="img/back2.jpg" alt="" />
+      <img src="img/back3.jpg" alt="" />
+      <img src="img/back4.jpg" alt="" />
+      <img src="img/back5.jpg" alt="" />
+      <img src="img/back6.jpg" alt="" />
+      <img src="img/back7.jpg" alt="" />
+      <img src="img/back8.jpg" alt="" />
+      <img src="img/back9.jpg" alt="" />
+      <img src="img/back10.jpg" alt="" />
+    </div>
+     
+    </div>
+    <p class="r-de">&gt;</p>
+    </div>
+    
+    <script>
+      var mask = document.querySelector(".mask");
+      var left = document.querySelector(".left");
+      var right = document.querySelector(".right");
+      left.onmousemove = function (e) {
+        right.style.display = "block";
+        mask.style.display = "block";
+        var e = e || event;
+        var l = e.clientX - 100;
+        var t = e.clientY - 100;
+        if (l <= 0) {
+          l = 0;
+        } else if (l >= 250) {
+          l = 250;
+        }
+        if (t <= 0) {
+          t = 0;
+        } else if (t >= 250) {
+          t = 250;
+        }
+        mask.style.left = l + "px";
+        mask.style.top = t + "px";
+        var scaleL = l / (450 - 200);
+        var scaleT = t / (450 - 200);
+        right.style.backgroundPositionX = -500 * scaleL + "px";
+        right.style.backgroundPositionY = -500 * scaleT + "px";
+      };
+      left.onmouseleave = function (e) {
+        mask.style.display = "none";
+        right.style.display = "none";
+      };
+
+
+      var imgs=document.querySelectorAll(".tab img");
+      var ld=document.querySelector(".l-de");
+      var rd=document.querySelector(".r-de");
+      var tab=document.querySelector(".tab");
+      for(var i=0;i<imgs.length;i++){
+        imgs[i].index=i;
+          imgs[i].onmouseenter=function(){
+            for(var i=0;i<imgs.length;i++){
+                
+                imgs[i].style.border="2px solid #fff";
+
+            }
+            imgs[this.index].style.border="2px solid red";
+            var num=imgs[this.index].src.indexOf("img");
+            left.style.background="url("+imgs[this.index].src.slice(num)+") no-repeat";
+            right.style.background="url("+imgs[this.index].src.slice(num)+") no-repeat";
+            right.style.backgroundSize="1000px 1000px";
+          }
+          imgs[i].onmouseleave=function(){
+            // imgs[this.index].style.border="2px solid #fff";
+          }
+      }
+      ld.onclick=function(){
+        var timer=  setInterval(function(){
+              if(tab.scrollLeft>0){
+                  tab.scrollLeft-=5;
+              }else{
+                tab.scrollLeft=0;
+                clearInterval(timer)
+              }
+          },1)
+      }
+      rd.onclick=function(){
+        var timer2= setInterval(function(){
+              if(tab.scrollLeft<322){
+                  tab.scrollLeft+=5;
+              }else{
+                tab.scrollLeft=322;
+                clearInterval(timer2)
+              }
+          },1)
+      }
+    </script>
+  </body>
+</html>
